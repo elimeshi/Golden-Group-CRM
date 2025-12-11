@@ -1,0 +1,158 @@
+{
+  "name": "Lead",
+  "type": "object",
+  "properties": {
+    "source": {
+      "type": "string",
+      "enum": [
+        "\u05e2\u05d9\u05ea\u05d5\u05df",
+        "\u05e1\u05d8\u05d8\u05d5\u05e1 \u05d5\u05d5\u05d0\u05d8\u05e1\u05d0\u05e4",
+        "\u05d4\u05e4\u05e0\u05d9\u05d4",
+        "\u05d0\u05ea\u05e8",
+        "\u05de\u05d5\u05d3\u05e2\u05d4 \u05de\u05de\u05d5\u05de\u05e0\u05ea",
+        "\u05e4\u05dc\u05d9\u05d9\u05e8\u05d9\u05dd",
+        "\u05e9\u05d5\u05ea\u05e3",
+        "\u05e7\u05de\u05e4\u05d9\u05d9\u05df",
+        "\u05d9\u05e8\u05d9\u05d3",
+        "\u05d0\u05d7\u05e8"
+      ],
+      "description": "\u05de\u05e7\u05d5\u05e8 \u05d4\u05dc\u05d9\u05d3"
+    },
+    "lead_type": {
+      "type": "string",
+      "enum": [
+        "\u05e7\u05d5\u05e0\u05d4",
+        "\u05de\u05d5\u05db\u05e8",
+        "\u05de\u05e9\u05e7\u05d9\u05e2",
+        "\u05e9\u05d5\u05db\u05e8"
+      ],
+      "description": "\u05e1\u05d5\u05d2 \u05d4\u05dc\u05d9\u05d3"
+    },
+    "first_name": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05e4\u05e8\u05d8\u05d9"
+    },
+    "last_name": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05de\u05e9\u05e4\u05d7\u05d4"
+    },
+    "phone_main": {
+      "type": "string",
+      "description": "\u05d8\u05dc\u05e4\u05d5\u05df \u05e8\u05d0\u05e9\u05d9"
+    },
+    "phone_alt": {
+      "type": "string",
+      "description": "\u05d8\u05dc\u05e4\u05d5\u05df \u05de\u05e9\u05e0\u05d9"
+    },
+    "whatsapp_available": {
+      "type": "boolean",
+      "default": false,
+      "description": "\u05d6\u05de\u05d9\u05df \u05d1\u05d5\u05d5\u05d0\u05d8\u05e1\u05d0\u05e4"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "\u05d3\u05d5\u05d0\u05e8 \u05d0\u05dc\u05e7\u05d8\u05e8\u05d5\u05e0\u05d9"
+    },
+    "area": {
+      "type": "string",
+      "description": "\u05d0\u05d6\u05d5\u05e8/\u05e9\u05db\u05d5\u05e0\u05d4 \u05de\u05d5\u05e2\u05d3\u05e4\u05ea"
+    },
+    "budget_min": {
+      "type": "number",
+      "description": "\u05ea\u05e7\u05e6\u05d9\u05d1 \u05de\u05d9\u05e0\u05d9\u05de\u05dc\u05d9 (\u20aa)"
+    },
+    "budget_max": {
+      "type": "number",
+      "description": "\u05ea\u05e7\u05e6\u05d9\u05d1 \u05de\u05e7\u05e1\u05d9\u05de\u05dc\u05d9 (\u20aa)"
+    },
+    "rooms_min": {
+      "type": "number",
+      "description": "\u05de\u05e1\u05e4\u05e8 \u05d7\u05d3\u05e8\u05d9\u05dd \u05de\u05d9\u05e0\u05d9\u05de\u05dc\u05d9"
+    },
+    "rooms_max": {
+      "type": "number",
+      "description": "\u05de\u05e1\u05e4\u05e8 \u05d7\u05d3\u05e8\u05d9\u05dd \u05de\u05e7\u05e1\u05d9\u05de\u05dc\u05d9"
+    },
+    "floor_preference": {
+      "type": "string",
+      "description": "\u05d4\u05e2\u05d3\u05e4\u05ea \u05e7\u05d5\u05de\u05d4"
+    },
+    "elevator_required": {
+      "type": "boolean",
+      "default": false,
+      "description": "\u05e0\u05d3\u05e8\u05e9\u05ea \u05de\u05e2\u05dc\u05d9\u05ea"
+    },
+    "parking_required": {
+      "type": "boolean",
+      "default": false,
+      "description": "\u05e0\u05d3\u05e8\u05e9\u05ea \u05d7\u05e0\u05d9\u05d4"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "\u05d7\u05d3\u05e9",
+        "\u05d9\u05d5\u05e6\u05e8 \u05e7\u05e9\u05e8",
+        "\u05de\u05ea\u05e2\u05e0\u05d9\u05d9\u05df \u05d7\u05dd",
+        "\u05de\u05ea\u05e2\u05e0\u05d9\u05d9\u05df \u05e4\u05d5\u05e9\u05e8",
+        "\u05dc\u05d0 \u05e8\u05dc\u05d5\u05d5\u05e0\u05d8\u05d9",
+        "\u05e0\u05e1\u05d2\u05e8 - \u05d4\u05d5\u05de\u05e8 \u05dc\u05dc\u05e7\u05d5\u05d7"
+      ],
+      "default": "\u05d7\u05d3\u05e9",
+      "description": "\u05e1\u05d8\u05d8\u05d5\u05e1 \u05d4\u05dc\u05d9\u05d3"
+    },
+    "owner_agent": {
+      "type": "string",
+      "description": "\u05e1\u05d5\u05db\u05df \u05d0\u05d7\u05e8\u05d0\u05d9"
+    },
+    "campaign_id": {
+      "type": "string",
+      "description": "\u05e7\u05de\u05e4\u05d9\u05d9\u05df \u05de\u05e9\u05d5\u05d9\u05da"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u05ea\u05d9\u05d5\u05d2\u05d9\u05dd"
+    },
+    "first_contact_minutes": {
+      "type": "number",
+      "description": "\u05d6\u05de\u05df \u05de\u05d2\u05e2 \u05e8\u05d0\u05e9\u05d5\u05df (\u05d3\u05e7\u05d5\u05ea)"
+    },
+    "last_contact_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "\u05ea\u05d0\u05e8\u05d9\u05da \u05de\u05d2\u05e2 \u05d0\u05d7\u05e8\u05d5\u05df"
+    },
+    "next_followup_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "\u05ea\u05d0\u05e8\u05d9\u05da \u05e4\u05d5\u05dc\u05d5\u05d0\u05e4 \u05d4\u05d1\u05d0"
+    },
+    "closure_reason": {
+      "type": "string",
+      "description": "\u05e1\u05d9\u05d1\u05ea \u05e1\u05d2\u05d9\u05e8\u05d4"
+    },
+    "notes": {
+      "type": "string",
+      "description": "\u05d4\u05e2\u05e8\u05d5\u05ea \u05d7\u05d5\u05e4\u05e9\u05d9\u05d5\u05ea"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "\u05d2\u05d1\u05d5\u05d4\u05d4",
+        "\u05d1\u05d9\u05e0\u05d5\u05e0\u05d9\u05ea",
+        "\u05e0\u05de\u05d5\u05db\u05d4"
+      ],
+      "default": "\u05d1\u05d9\u05e0\u05d5\u05e0\u05d9\u05ea",
+      "description": "\u05e8\u05de\u05ea \u05e2\u05d3\u05d9\u05e4\u05d5\u05ea"
+    }
+  },
+  "required": [
+    "first_name",
+    "phone_main",
+    "lead_type",
+    "source"
+  ]
+}
