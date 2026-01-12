@@ -1,0 +1,98 @@
+{
+  "name": "Client",
+  "type": "object",
+  "properties": {
+    "first_name": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05e4\u05e8\u05d8\u05d9"
+    },
+    "last_name": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05de\u05e9\u05e4\u05d7\u05d4"
+    },
+    "id_number": {
+      "type": "string",
+      "description": "\u05ea\u05e2\u05d5\u05d3\u05ea \u05d6\u05d4\u05d5\u05ea"
+    },
+    "phone_main": {
+      "type": "string",
+      "description": "\u05d8\u05dc\u05e4\u05d5\u05df \u05e8\u05d0\u05e9\u05d9"
+    },
+    "phone_alt": {
+      "type": "string",
+      "description": "\u05d8\u05dc\u05e4\u05d5\u05df \u05de\u05e9\u05e0\u05d9"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "\u05d3\u05d5\u05d0\u05e8 \u05d0\u05dc\u05e7\u05d8\u05e8\u05d5\u05e0\u05d9"
+    },
+    "address": {
+      "type": "string",
+      "description": "\u05db\u05ea\u05d5\u05d1\u05ea \u05de\u05d2\u05d5\u05e8\u05d9\u05dd"
+    },
+    "apartment_type": {
+      "type": "string",
+      "enum": [
+        "3 \u05d7\u05d3\u05e8\u05d9\u05dd",
+        "4 \u05d7\u05d3\u05e8\u05d9\u05dd",
+        "5 \u05d7\u05d3\u05e8\u05d9\u05dd",
+        "+ \u05d9\u05d7\u05d9\u05d3\u05ea \u05d3\u05d9\u05d5\u05e8",
+        "\u05d8\u05d0\u05d1\u05d5 \u05de\u05e9\u05d5\u05ea\u05e3"
+      ],
+      "description": "\u05e1\u05d5\u05d2 \u05d3\u05d9\u05e8\u05d4"
+    },
+    "budget": {
+      "type": "number",
+      "description": "\u05ea\u05e7\u05e6\u05d9\u05d1 (\u20aa)"
+    },
+    "financing_approved": {
+      "type": "boolean",
+      "default": false,
+      "description": "\u05d0\u05d5\u05e9\u05e8 \u05de\u05d9\u05de\u05d5\u05df/\u05de\u05e9\u05db\u05e0\u05ea\u05d0"
+    },
+    "bank_name": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05d4\u05d1\u05e0\u05e7"
+    },
+    "needs_rooms": {
+      "type": "number",
+      "description": "\u05de\u05e1\u05e4\u05e8 \u05d7\u05d3\u05e8\u05d9\u05dd \u05e0\u05d3\u05e8\u05e9"
+    },
+    "preferred_areas": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u05d0\u05d6\u05d5\u05e8\u05d9\u05dd \u05de\u05d5\u05e2\u05d3\u05e4\u05d9\u05dd"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "\u05d7\u05d3\u05e9",
+        "\u05d1\u05ea\u05d4\u05dc\u05d9\u05da",
+        "\u05d4\u05e7\u05e4\u05d0\u05d4",
+        "\u05e0\u05e1\u05d2\u05e8"
+      ],
+      "default": "\u05d7\u05d3\u05e9",
+      "description": "\u05e1\u05d8\u05d8\u05d5\u05e1 \u05dc\u05e7\u05d5\u05d7"
+    },
+    "owner_agent": {
+      "type": "string",
+      "description": "\u05e1\u05d5\u05db\u05df \u05d0\u05d7\u05e8\u05d0\u05d9"
+    },
+    "source_lead_id": {
+      "type": "string",
+      "description": "\u05de\u05d6\u05d4\u05d4 \u05dc\u05d9\u05d3 \u05de\u05e7\u05d5\u05e8\u05d9"
+    },
+    "notes": {
+      "type": "string",
+      "description": "\u05d4\u05e2\u05e8\u05d5\u05ea"
+    }
+  },
+  "required": [
+    "first_name",
+    "last_name",
+    "phone_main"
+  ]
+}

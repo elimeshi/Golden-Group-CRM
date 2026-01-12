@@ -126,7 +126,7 @@ export default function Layout({ children }) {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 overflow-y-auto space-y-2">
+          <nav className="flex-1 overflow-y-auto p-4 -m-4 space-y-2">
             {navigationItems.map((item) => {
               const isActive = location.pathname === item.url;
               return (

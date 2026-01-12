@@ -11,7 +11,7 @@ export default function App() {
           <Route path="/Clients" element={<Clients/>}/>
           <Route path="/Dashboard" element={<Dashboard/>}/>
           <Route path="/Leads" element={<Leads/>}/>
-          <Route path="/Listing" element={<Listings/>}/>
+          <Route path="/Listings" element={<Listings/>}/>
         </Routes>
       </Layout>
     </BrowserRouter>; 
