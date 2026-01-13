@@ -9,23 +9,23 @@ class EntityApi {
     constructor(entityName) { this.entityName = entityName; }
 
     list(orderBy) {
-        return api.get(`/${this.entityName}`, {params: orderBy ? { orderBy } : undefined}).then(res.res.data);
+        return api.get(`${this.entityName}`, {params: orderBy ? { orderBy } : undefined}).then(res => res.data);
     }
 
     get(id) {
-        return api.get(`/${this.entityName}/${id}`).then(res => res.data);
+        return api.get(`${this.entityName}/${id}`).then(res => res.data);
     }
 
     create(data) {
-        return api.post(`/${this.entityName}`, data).then(res => res.data);
+        return api.post(`${this.entityName}`, data).then(res => res.data);
     }
 
     update(id, data) {
-        return api.put(`/${this.entityName}/${id}`, data).then(res => res.data);
+        return api.put(`${this.entityName}/${id}`, data).then(res => res.data);
     }
 
     delete(id) {
-        return api.delete(`/${this.entityName}/${id}`).then(res => res.data);
+        return api.delete(`${this.entityName}/${id}`).then(res => res.data);
     }
 }
 
