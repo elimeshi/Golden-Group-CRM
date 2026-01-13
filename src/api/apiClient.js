@@ -15,6 +15,7 @@ class EntityApi {
     get(id) {
         return api.get(`${this.entityName}/${id}`).then(res => res.data);
     }
+    
 
     create(data) {
         return api.post(`${this.entityName}`, data).then(res => res.data);
