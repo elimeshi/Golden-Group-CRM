@@ -56,10 +56,11 @@ export const entities = {
   Deal: new EntityApi("deals"),
   Commission: new EntityApi("commissions"),
   Campaign: new EntityApi("campaigns"),
-  Listing: new EntityApi("listings"),
-  Offer: new EntityApi("offers"),
-  Showing: new EntityApi("showings"),
-  Task: new EntityApi("tasks"),
+  Listing: {
+    ...new EntityApi("Listings"),
+    createNormal: (data) => api.post("Listings/normal", data).then(res => res.data),
+    createTabo: (data) => api.post("Listings/tabo", data).then(res => res.data),
+  },
   BuyerRequest: {
     ...new EntityApi("BuyerRequests"),
     createNormal: (data) => api.post("BuyerRequests/normal", data).then(res => res.data),

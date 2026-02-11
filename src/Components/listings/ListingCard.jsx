@@ -20,7 +20,7 @@ export default function ListingCard({ listing, onEdit }) {
   };
 
   const getAddress = () => {
-    const parts = [listing.street, listing.building_number, listing.neighborhood].filter(Boolean);
+    const parts = [listing.street, listing.buildingNumber, listing.zone].filter(Boolean);
     return parts.join(', ');
   };
 
@@ -28,20 +28,20 @@ export default function ListingCard({ listing, onEdit }) {
 
   return (
     <div className="neomorphic-card rounded-2xl overflow-hidden hover:scale-[1.02] transition-transform duration-200">
-      {/* Image/Icon Header */}
+      {/* Listing Type / Image Header */}
       <div className="h-48 relative overflow-hidden bg-gradient-to-br from-[#4a9eff] to-[#3b7ec9]">
         {mainImage ? (
-          <img 
-            src={mainImage} 
-            alt={listing.property_type}
+          <img
+            src={mainImage}
+            alt={listing.city}
             className="w-full h-full object-cover"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-6xl">
-            {propertyTypeIcons[listing.property_type]}
+            {listing.registrationType === 'Tabo' ? '🏘️' : '🏢'}
           </div>
         )}
-        
+
         {/* Image Count Badge */}
         {listing.images && listing.images.length > 1 && (
           <div className="absolute bottom-3 right-3 neomorphic-button rounded-full px-3 py-1 flex items-center gap-1 bg-black bg-opacity-50 backdrop-blur-sm">
@@ -50,11 +50,11 @@ export default function ListingCard({ listing, onEdit }) {
           </div>
         )}
 
-        {/* Exclusive Badge */}
-        {listing.is_exclusive && (
-          <div className="absolute top-3 right-3 neomorphic-button rounded-full px-3 py-1 flex items-center gap-1">
-            <Star className="w-4 h-4 text-[#ffd43b]" fill="#ffd43b" />
-            <span className="text-xs font-bold text-gray-800">בלעדי</span>
+        {/* Tabo Badge */}
+        {listing.registrationType === 'Tabo' && (
+          <div className="absolute top-3 right-3 neomorphic-button rounded-full px-3 py-1 flex items-center gap-1 bg-[#ffd43b]">
+            <Star className="w-4 h-4 text-gray-800" fill="currentColor" />
+            <span className="text-xs font-bold text-gray-800">טאבו</span>
           </div>
         )}
 
@@ -68,10 +68,10 @@ export default function ListingCard({ listing, onEdit }) {
       </div>
 
       <div className="p-6">
-        {/* Property Type & Address */}
+        {/* Location & Address */}
         <div className="mb-4">
           <h3 className="font-bold text-gray-800 text-lg mb-2">
-            {listing.property_type}
+            {listing.city} {listing.registrationType === 'Tabo' ? '(טאבו משותף)' : ''}
           </h3>
           <div className="neomorphic-inset rounded-xl p-3 flex items-start gap-2">
             <MapPin className="w-4 h-4 text-gray-600 mt-0.5 flex-shrink-0" />
@@ -87,37 +87,58 @@ export default function ListingCard({ listing, onEdit }) {
               <p className="text-xs font-semibold text-gray-800">{listing.rooms} חדרים</p>
             </div>
           )}
-          {listing.sqm_built && (
+          {listing.squaredMeters && (
             <div className="neomorphic-inset rounded-lg p-2 text-center">
               <Maximize className="w-4 h-4 text-gray-600 mx-auto mb-1" />
-              <p className="text-xs font-semibold text-gray-800">{listing.sqm_built} מ"ר</p>
+              <p className="text-xs font-semibold text-gray-800">{listing.squaredMeters} מ"ר</p>
             </div>
           )}
-          {listing.parking_spots > 0 && (
+          {listing.floor !== undefined && (
             <div className="neomorphic-inset rounded-lg p-2 text-center">
-              <Car className="w-4 h-4 text-gray-600 mx-auto mb-1" />
-              <p className="text-xs font-semibold text-gray-800">{listing.parking_spots} חניות</p>
+              <div className="text-xs text-gray-600 mb-1">קומה</div>
+              <p className="text-xs font-semibold text-gray-800">{listing.floor}</p>
             </div>
           )}
         </div>
 
         {/* Price */}
-        <div className="neomorphic-card rounded-xl p-4 text-center">
+        <div className="neomorphic-card rounded-xl p-4 text-center mb-4">
           <p className="text-xs text-gray-600 mb-1">מחיר מבוקש</p>
           <p className="text-2xl font-bold text-[#4a9eff]">
-            {formatPrice(listing.price_ask)}
+            {formatPrice(listing.price)}
           </p>
-          {listing.price_published && listing.price_published !== listing.price_ask && (
-            <p className="text-xs text-gray-500 mt-1">
-              פרסום: {formatPrice(listing.price_published)}
-            </p>
-          )}
         </div>
 
+        {/* Housing Units */}
+        {listing.housingUnits && listing.housingUnits.length > 0 && (
+          <div className="space-y-2">
+            <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">יחידות דיור ({listing.housingUnits.length})</h4>
+            <div className="grid grid-cols-1 gap-2">
+              {listing.housingUnits.map((unit, index) => (
+                <div key={index} className="neomorphic-inset rounded-xl p-3 flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1">
+                      <Bed className="w-3 h-3 text-gray-500" />
+                      <span className="font-semibold">{unit.rooms || 0}</span>
+                    </div>
+                    <div className="flex items-center gap-1 border-r border-gray-300 pr-3">
+                      <Maximize className="w-3 h-3 text-gray-500" />
+                      <span className="font-semibold">{unit.squaredMeters || 0} מ"ר</span>
+                    </div>
+                  </div>
+                  <div className="text-gray-600 font-medium">
+                    קומה {unit.floor}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Footer */}
-        {listing.listing_number && (
+        {listing.id && (
           <div className="mt-4 pt-4 border-t border-gray-300 text-center">
-            <span className="text-xs text-gray-500">מספר נכס: {listing.listing_number}</span>
+            <span className="text-xs text-gray-500">מזהה נכס: {listing.id}</span>
           </div>
         )}
       </div>

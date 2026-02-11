@@ -12,20 +12,29 @@ export default function Listings() {
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({
-    property_type: 'הכל',
-    location: 'הכל',
-    is_exclusive: 'הכל'
+    zone: 'הכל',
+    city: '',
+    registrationType: 'הכל'
   });
 
   const queryClient = useQueryClient();
 
   const { data: listings = [], isLoading } = useQuery({
     queryKey: ['listings'],
-    queryFn: () => entities.Listing.list('-created_date'),
+    queryFn: () => entities.Listing.list(),
   });
 
-  const createMutation = useMutation({
-    mutationFn: (data) => entities.Listing.create(data),
+  const createNormalMutation = useMutation({
+    mutationFn: (data) => entities.Listing.createNormal(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['listings'] });
+      setShowForm(false);
+      setEditingListing(null);
+    },
+  });
+
+  const createTaboMutation = useMutation({
+    mutationFn: (data) => entities.Listing.createTabo(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['listings'] });
       setShowForm(false);
@@ -43,10 +52,15 @@ export default function Listings() {
   });
 
   const handleSubmit = (data) => {
+    const { type, ...formData } = data;
     if (editingListing) {
-      updateMutation.mutate({ id: editingListing.id, data });
+      updateMutation.mutate({ id: editingListing.id, data: formData });
     } else {
-      createMutation.mutate(data);
+      if (type === 'tabo') {
+        createTaboMutation.mutate(formData);
+      } else {
+        createNormalMutation.mutate(formData);
+      }
     }
   };
 
@@ -57,19 +71,16 @@ export default function Listings() {
 
   // Filter listings
   const filteredListings = listings.filter(listing => {
-    const matchesSearch = 
-      listing.neighborhood?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    const matchesSearch =
+      listing.city?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       listing.street?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      listing.listing_number?.includes(searchTerm) ||
-      listing.location?.toLowerCase().includes(searchTerm.toLowerCase());
+      listing.id?.toString().includes(searchTerm);
 
-    const matchesType = filters.property_type === 'הכל' || listing.property_type === filters.property_type;
-    const matchesLocation = filters.location === 'הכל' || listing.location === filters.location;
-    const matchesExclusive = filters.is_exclusive === 'הכל' || 
-      (filters.is_exclusive === 'כן' && listing.is_exclusive) ||
-      (filters.is_exclusive === 'לא' && !listing.is_exclusive);
+    const matchesZone = filters.zone === 'הכל' || listing.zone === filters.zone;
+    const matchesCity = !filters.city || listing.city?.toLowerCase().includes(filters.city.toLowerCase());
+    const matchesType = filters.registrationType === 'הכל' || listing.registrationType === filters.registrationType;
 
-    return matchesSearch && matchesType && matchesLocation && matchesExclusive;
+    return matchesSearch && matchesZone && matchesCity && matchesType;
   });
 
   return (
@@ -101,7 +112,7 @@ export default function Listings() {
             <Search className="w-5 h-5 text-gray-400" />
             <input
               type="text"
-              placeholder="חיפוש לפי שכונה, רחוב או מספר נכס..."
+              placeholder="חיפוש לפי עיר, רחוב או מזהה נכס..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="flex-1 bg-transparent border-none outline-none text-gray-800 placeholder-gray-400"
@@ -122,7 +133,7 @@ export default function Listings() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-2 gap-4">
         <div className="neomorphic-card rounded-xl p-4">
           <p className="text-sm text-gray-600 mb-1">סה"כ נכסים</p>
           <p className="text-2xl font-bold text-gray-800">{listings.length}</p>
@@ -131,12 +142,6 @@ export default function Listings() {
           <p className="text-sm text-gray-600 mb-1">נכסים מסונפים</p>
           <p className="text-2xl font-bold text-[#4a9eff]">
             {filteredListings.length}
-          </p>
-        </div>
-        <div className="neomorphic-card rounded-xl p-4">
-          <p className="text-sm text-gray-600 mb-1">בלעדיות</p>
-          <p className="text-2xl font-bold text-[#ffd43b]">
-            {listings.filter(l => l.is_exclusive).length}
           </p>
         </div>
       </div>
@@ -152,7 +157,7 @@ export default function Listings() {
                 setShowForm(false);
                 setEditingListing(null);
               }}
-              isSubmitting={createMutation.isPending || updateMutation.isPending}
+              isSubmitting={createNormalMutation.isPending || createTaboMutation.isPending || updateMutation.isPending}
             />
           </div>
         </div>
