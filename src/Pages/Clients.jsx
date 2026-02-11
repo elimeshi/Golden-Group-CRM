@@ -12,40 +12,48 @@ export default function Clients() {
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({
-    status: 'הכל',
-    financing_approved: 'הכל'
+    city: ''
   });
 
   const queryClient = useQueryClient();
 
   const { data: clients = [], isLoading } = useQuery({
     queryKey: ['clients'],
-    queryFn: () => entities.Client.list('-created_date'),
+    queryFn: () => entities.Client.list(),
   });
 
-  const createMutation = useMutation({
-    mutationFn: (data) => entities.Client.create(data),
-    onSuccess: () => {
+  const handleSubmit = async (data) => {
+    const { buyerRequests, ...clientData } = data;
+
+    try {
+      let savedClient;
+      if (editingClient) {
+        savedClient = await entities.Client.update(editingClient.id, clientData);
+      } else {
+        savedClient = await entities.Client.create(clientData);
+      }
+
+      const clientId = savedClient.id || editingClient?.id;
+
+      if (clientId && buyerRequests && buyerRequests.length > 0) {
+        // Create buyer requests
+        for (const req of buyerRequests) {
+          const { type, ...reqData } = req;
+          reqData.clientId = clientId;
+          if (type === 'tabo') {
+            await entities.BuyerRequest.createTabo(reqData);
+          } else {
+            await entities.BuyerRequest.createNormal(reqData);
+          }
+        }
+      }
+
       queryClient.invalidateQueries({ queryKey: ['clients'] });
       setShowForm(false);
       setEditingClient(null);
-    },
-  });
-
-  const updateMutation = useMutation({
-    mutationFn: ({ id, data }) => entities.Client.update(id, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['clients'] });
-      setShowForm(false);
-      setEditingClient(null);
-    },
-  });
-
-  const handleSubmit = (data) => {
-    if (editingClient) {
-      updateMutation.mutate({ id: editingClient.id, data });
-    } else {
-      createMutation.mutate(data);
+    } catch (error) {
+      console.error("Submission failed", error);
+      alert("הפעולה נכשלה. אנא נסה שוב.");
     }
   };
 
@@ -56,18 +64,15 @@ export default function Clients() {
 
   // Filter clients
   const filteredClients = clients.filter(client => {
-    const matchesSearch = 
-      client.first_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      client.last_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      client.phone_main?.includes(searchTerm) ||
+    const matchesSearch =
+      client.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      client.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      client.phoneNumbers?.some(p => p.includes(searchTerm)) ||
       client.email?.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesStatus = filters.status === 'הכל' || client.status === filters.status;
-    const matchesFinancing = filters.financing_approved === 'הכל' || 
-      (filters.financing_approved === 'כן' && client.financing_approved) ||
-      (filters.financing_approved === 'לא' && !client.financing_approved);
+    const matchesCity = !filters.city || client.address?.toLowerCase().includes(filters.city.toLowerCase());
 
-    return matchesSearch && matchesStatus && matchesFinancing;
+    return matchesSearch && matchesCity;
   });
 
   return (
@@ -120,28 +125,14 @@ export default function Clients() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="neomorphic-card rounded-xl p-4">
           <p className="text-sm text-gray-600 mb-1">סה"כ קונים</p>
           <p className="text-2xl font-bold text-gray-800">{clients.length}</p>
         </div>
         <div className="neomorphic-card rounded-xl p-4">
-          <p className="text-sm text-gray-600 mb-1">קונים פעילים</p>
-          <p className="text-2xl font-bold text-[#51cf66]">
-            {clients.filter(c => c.status === 'בתהליך').length}
-          </p>
-        </div>
-        <div className="neomorphic-card rounded-xl p-4">
-          <p className="text-sm text-gray-600 mb-1">מימון מאושר</p>
-          <p className="text-2xl font-bold text-[#4a9eff]">
-            {clients.filter(c => c.financing_approved).length}
-          </p>
-        </div>
-        <div className="neomorphic-card rounded-xl p-4">
-          <p className="text-sm text-gray-600 mb-1">עסקאות נסגרו</p>
-          <p className="text-2xl font-bold text-green-500">
-            {clients.filter(c => c.status === 'נסגר').length}
-          </p>
+          <p className="text-sm text-gray-600 mb-1">קונים נמצאו</p>
+          <p className="text-2xl font-bold text-[#4a9eff]">{filteredClients.length}</p>
         </div>
       </div>
 
@@ -156,7 +147,7 @@ export default function Clients() {
                 setShowForm(false);
                 setEditingClient(null);
               }}
-              isSubmitting={createMutation.isPending || updateMutation.isPending}
+              isSubmitting={false} // Transition to custom loading if needed
             />
           </div>
         </div>

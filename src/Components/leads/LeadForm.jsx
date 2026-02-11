@@ -93,6 +93,7 @@ export default function LeadForm({ lead, onSubmit, onCancel, isSubmitting }) {
           <input
             type="text"
             required
+            autoComplete="given-name"
             value={formData.first_name}
             onChange={(e) => handleChange('first_name', e.target.value)}
             className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
@@ -104,6 +105,7 @@ export default function LeadForm({ lead, onSubmit, onCancel, isSubmitting }) {
           <label className="block text-sm font-medium text-gray-700 mb-2">שם משפחה</label>
           <input
             type="text"
+            autoComplete="family-name"
             value={formData.last_name}
             onChange={(e) => handleChange('last_name', e.target.value)}
             className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
@@ -116,6 +118,7 @@ export default function LeadForm({ lead, onSubmit, onCancel, isSubmitting }) {
           <input
             type="tel"
             required
+            autoComplete="tel"
             value={formData.phone_main}
             onChange={(e) => handleChange('phone_main', e.target.value)}
             className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
@@ -127,6 +130,7 @@ export default function LeadForm({ lead, onSubmit, onCancel, isSubmitting }) {
           <label className="block text-sm font-medium text-gray-700 mb-2">טלפון משני</label>
           <input
             type="tel"
+            autoComplete="tel"
             value={formData.phone_alt}
             onChange={(e) => handleChange('phone_alt', e.target.value)}
             className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
@@ -138,6 +142,7 @@ export default function LeadForm({ lead, onSubmit, onCancel, isSubmitting }) {
           <label className="block text-sm font-medium text-gray-700 mb-2">אימייל</label>
           <input
             type="email"
+            autoComplete="email"
             value={formData.email}
             onChange={(e) => handleChange('email', e.target.value)}
             className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"

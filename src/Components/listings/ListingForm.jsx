@@ -192,6 +192,7 @@ export default function ListingForm({ listing, onSubmit, onCancel, isSubmitting 
             <input
               type="text"
               required
+              autoComplete="street-address"
               value={formData.street}
               onChange={(e) => handleChange('street', e.target.value)}
               className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
@@ -433,6 +434,7 @@ export default function ListingForm({ listing, onSubmit, onCancel, isSubmitting 
             <label className="block text-sm font-medium text-gray-700 mb-2">שם המוכר</label>
             <input
               type="text"
+              autoComplete="name"
               value={formData.seller_name}
               onChange={(e) => handleChange('seller_name', e.target.value)}
               className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
@@ -444,6 +446,7 @@ export default function ListingForm({ listing, onSubmit, onCancel, isSubmitting 
             <label className="block text-sm font-medium text-gray-700 mb-2">טלפון מוכר</label>
             <input
               type="tel"
+              autoComplete="tel"
               value={formData.seller_phone}
               onChange={(e) => handleChange('seller_phone', e.target.value)}
               className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
@@ -455,6 +458,7 @@ export default function ListingForm({ listing, onSubmit, onCancel, isSubmitting 
             <label className="block text-sm font-medium text-gray-700 mb-2">דוא"ל מוכר</label>
             <input
               type="email"
+              autoComplete="email"
               value={formData.seller_email}
               onChange={(e) => handleChange('seller_email', e.target.value)}
               className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
@@ -466,6 +470,7 @@ export default function ListingForm({ listing, onSubmit, onCancel, isSubmitting 
             <label className="block text-sm font-medium text-gray-700 mb-2">טלפון שוכר</label>
             <input
               type="tel"
+              autoComplete="tel"
               value={formData.renter_phone}
               onChange={(e) => handleChange('renter_phone', e.target.value)}
               className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"

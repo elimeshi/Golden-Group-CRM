@@ -3,51 +3,77 @@ import React, { useState } from "react";
 import { X, Save, Plus, Trash2 } from "lucide-react";
 
 export default function ClientForm({ client, onSubmit, onCancel, isSubmitting }) {
-  const [formData, setFormData] = useState(client || {
-    first_name: '',
-    last_name: '',
-    id_number: '',
-    phone_main: '',
-    phone_alt: '',
-    email: '',
-    address: '',
-    apartment_type: '',
-    budget: '',
-    financing_approved: false,
-    bank_name: '',
-    needs_rooms: '',
-    preferred_areas: [],
-    status: 'חדש',
-    owner_agent: '',
-    notes: ''
+  const [formData, setFormData] = useState({
+    firstName: client?.firstName || '',
+    lastName: client?.lastName || '',
+    idNumber: client?.idNumber || '',
+    phoneNumbers: client?.phoneNumbers || [''],
+    email: client?.email || '',
+    address: client?.address || '',
+    buyerRequests: [] // This will be handled in the parent or submitted separately
   });
 
-  const [newArea, setNewArea] = useState('');
+  const [buyerRequests, setBuyerRequests] = useState([]);
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleAddArea = () => {
-    if (newArea.trim()) {
-      setFormData((prev) => ({
-        ...prev,
-        preferred_areas: [...(prev.preferred_areas || []), newArea.trim()]
-      }));
-      setNewArea('');
-    }
+  const handlePhoneChange = (index, value) => {
+    const newPhones = [...formData.phoneNumbers];
+    newPhones[index] = value;
+    setFormData((prev) => ({ ...prev, phoneNumbers: newPhones }));
   };
 
-  const handleRemoveArea = (indexToRemove) => {
+  const addPhone = () => {
+    setFormData((prev) => ({ ...prev, phoneNumbers: [...prev.phoneNumbers, ''] }));
+  };
+
+  const removePhone = (index) => {
     setFormData((prev) => ({
       ...prev,
-      preferred_areas: prev.preferred_areas.filter((_, index) => index !== indexToRemove)
+      phoneNumbers: prev.phoneNumbers.filter((_, i) => i !== index)
     }));
+  };
+
+  const addBuyerRequest = (type) => {
+    const newRequest = {
+      type, // 'normal' or 'tabo'
+      zones: [],
+      minFloor: 0,
+      maxFloor: 0,
+      maxPrice: 0,
+      minSize: 0,
+      details: '',
+      liquidity: 'Immediate',
+      ...(type === 'tabo' ? {
+        maxEquity: 0,
+        community: 'Mixed',
+        registrationType: 'Tabo',
+        maxPartners: 0
+      } : {})
+    };
+    setBuyerRequests([...buyerRequests, newRequest]);
+  };
+
+  const updateBuyerRequest = (index, field, value) => {
+    const newRequests = [...buyerRequests];
+    newRequests[index] = { ...newRequests[index], [field]: value };
+    setBuyerRequests(newRequests);
+  };
+
+  const removeBuyerRequest = (index) => {
+    setBuyerRequests(buyerRequests.filter((_, i) => i !== index));
+  };
+
+  const handleZoneChange = (requestIndex, zoneString) => {
+    const zones = zoneString.split(',').map(z => z.trim()).filter(z => z);
+    updateBuyerRequest(requestIndex, 'zones', zones);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    onSubmit({ ...formData, buyerRequests });
   };
 
   return (
@@ -64,17 +90,18 @@ export default function ClientForm({ client, onSubmit, onCancel, isSubmitting })
         </button>
       </div>
 
-      {/* Basic Info */}
-      <div>
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">פרטים בסיסיים</h3>
+      {/* Client Basic Info */}
+      <div className="neomorphic-card rounded-2xl p-6">
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">פרטי לקוח</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">שם פרטי *</label>
             <input
               type="text"
               required
-              value={formData.first_name}
-              onChange={(e) => handleChange('first_name', e.target.value)}
+              autoComplete="given-name"
+              value={formData.firstName}
+              onChange={(e) => handleChange('firstName', e.target.value)}
               className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
               placeholder="שם פרטי" />
           </div>
@@ -84,8 +111,9 @@ export default function ClientForm({ client, onSubmit, onCancel, isSubmitting })
             <input
               type="text"
               required
-              value={formData.last_name}
-              onChange={(e) => handleChange('last_name', e.target.value)}
+              autoComplete="family-name"
+              value={formData.lastName}
+              onChange={(e) => handleChange('lastName', e.target.value)}
               className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
               placeholder="שם משפחה" />
           </div>
@@ -94,37 +122,17 @@ export default function ClientForm({ client, onSubmit, onCancel, isSubmitting })
             <label className="block text-sm font-medium text-gray-700 mb-2">תעודת זהות</label>
             <input
               type="text"
-              value={formData.id_number}
-              onChange={(e) => handleChange('id_number', e.target.value)}
+              value={formData.idNumber}
+              onChange={(e) => handleChange('idNumber', e.target.value)}
               className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
               placeholder="123456789" />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">טלפון ראשי *</label>
-            <input
-              type="tel"
-              required
-              value={formData.phone_main}
-              onChange={(e) => handleChange('phone_main', e.target.value)}
-              className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
-              placeholder="05X-XXXXXXX" />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">טלפון משני</label>
-            <input
-              type="tel"
-              value={formData.phone_alt}
-              onChange={(e) => handleChange('phone_alt', e.target.value)}
-              className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
-              placeholder="05X-XXXXXXX" />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">אימייל</label>
             <input
               type="email"
+              autoComplete="email"
               value={formData.email}
               onChange={(e) => handleChange('email', e.target.value)}
               className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
@@ -135,161 +143,195 @@ export default function ClientForm({ client, onSubmit, onCancel, isSubmitting })
             <label className="block text-sm font-medium text-gray-700 mb-2">כתובת</label>
             <input
               type="text"
+              autoComplete="street-address"
               value={formData.address}
               onChange={(e) => handleChange('address', e.target.value)}
               className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
               placeholder="רחוב 123, עיר" />
           </div>
         </div>
-      </div>
 
-      {/* Requirements */}
-      <div>
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">סוג דירה</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* New Apartment Type Select */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">סוג דירה</label>
-            <select
-              value={formData.apartment_type}
-              onChange={(e) => handleChange('apartment_type', e.target.value)}
-              className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800">
-              <option value="">בחר סוג</option>
-              <option value="3 חדרים">3 חדרים</option>
-              <option value="4 חדרים">4 חדרים</option>
-              <option value="5 חדרים">5 חדרים</option>
-              <option value="+ יחידת דיור">+ יחידת דיור</option>
-              <option value="טאבו משותף">טאבו משותף</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">מספר חדרים נדרש</label>
-            <input
-              type="number"
-              step="0.5"
-              value={formData.needs_rooms}
-              onChange={(e) => handleChange('needs_rooms', parseFloat(e.target.value))}
-              className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
-              placeholder="4" />
-          </div>
-        </div>
-      </div>
-
-      {/* Financial Info */}
-      <div>
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">מידע פיננסי</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">תקציב (₪)</label>
-            <input
-              type="number"
-              value={formData.budget}
-              onChange={(e) => handleChange('budget', parseFloat(e.target.value))}
-              className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
-              placeholder="2500000" />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">הון עצמי</label>
-            <input
-              type="text"
-              value={formData.bank_name}
-              onChange={(e) => handleChange('bank_name', e.target.value)}
-              className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
-              placeholder="בנק לאומי" />
-          </div>
-
-          <div className="flex items-center pt-7">
-            <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={formData.financing_approved}
-                onChange={(e) => handleChange('financing_approved', e.target.checked)}
-                className="w-5 h-5" />
-              <span className="text-sm font-medium text-gray-700">מימון מאושר</span>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      {/* Preferred Areas */}
-      <div>
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">אזורים מועדפים</h3>
-        <div className="neomorphic-inset rounded-xl p-4">
-          <div className="flex gap-2 mb-3">
-            <input
-              type="text"
-              value={newArea}
-              onChange={(e) => setNewArea(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddArea())}
-              className="flex-1 neomorphic-inset rounded-lg px-4 py-2 bg-transparent text-gray-800"
-              placeholder="הוסף אזור..." />
-            <button
-              type="button"
-              onClick={handleAddArea}
-              className="neomorphic-button rounded-lg px-4 py-2 flex items-center gap-2 hover:text-[#4a9eff] transition-colors">
-              <Plus className="w-4 h-4" />
-              <span className="text-sm font-medium">הוסף</span>
-            </button>
-          </div>
-
-          {formData.preferred_areas && formData.preferred_areas.length > 0 &&
-            <div className="flex flex-wrap gap-2">
-              {formData.preferred_areas.map((area, index) =>
-                <div key={index} className="neomorphic-card rounded-lg px-3 py-2 flex items-center gap-2">
-                  <span className="text-sm text-gray-800">{area}</span>
+        {/* Dynamic Phone Numbers */}
+        <div className="mt-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">מספרי טלפון</label>
+          <div className="space-y-2">
+            {formData.phoneNumbers.map((phone, index) => (
+              <div key={index} className="flex gap-2">
+                <input
+                  type="tel"
+                  required={index === 0}
+                  autoComplete="tel"
+                  value={phone}
+                  onChange={(e) => handlePhoneChange(index, e.target.value)}
+                  className="flex-1 neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
+                  placeholder="05X-XXXXXXX" />
+                {formData.phoneNumbers.length > 1 && (
                   <button
                     type="button"
-                    onClick={() => handleRemoveArea(index)}
-                    className="hover:text-red-600 transition-colors">
-                    <Trash2 className="w-3 h-3" />
+                    onClick={() => removePhone(index)}
+                    className="neomorphic-button rounded-xl p-3 text-red-500">
+                    <Trash2 className="w-5 h-5" />
                   </button>
+                )}
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addPhone}
+              className="flex items-center gap-2 text-sm text-[#4a9eff] font-medium mt-2">
+              <Plus className="w-4 h-4" />
+              הוסף מספר טלפון
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Buyer Requests Section */}
+      <div className="neomorphic-card rounded-2xl p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-gray-800">בקשות קונה</h3>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => addBuyerRequest('normal')}
+              className="neomorphic-button rounded-xl px-4 py-2 text-sm font-medium text-gray-700 hover:text-[#4a9eff]">
+              + בקשה רגילה
+            </button>
+            <button
+              type="button"
+              onClick={() => addBuyerRequest('tabo')}
+              className="neomorphic-button rounded-xl px-4 py-2 text-sm font-medium text-gray-700 hover:text-[#4a9eff]">
+              + בקשת טאבו
+            </button>
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          {buyerRequests.map((req, index) => (
+            <div key={index} className="neomorphic-inset rounded-2xl p-6 relative">
+              <button
+                type="button"
+                onClick={() => removeBuyerRequest(index)}
+                className="absolute top-4 left-4 text-red-400 hover:text-red-600">
+                <Trash2 className="w-5 h-5" />
+              </button>
+
+              <h4 className="font-bold text-gray-800 mb-4">
+                בקשה {index + 1} ({req.type === 'tabo' ? 'טאבו' : 'רגילה'})
+              </h4>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">אזורים (מופרדים בפסיק)</label>
+                  <input
+                    type="text"
+                    value={req.zones.join(', ')}
+                    onChange={(e) => handleZoneChange(index, e.target.value)}
+                    className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
+                    placeholder="A1, A2" />
                 </div>
-              )}
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">מחיר מקסימלי</label>
+                  <input
+                    type="number"
+                    value={req.maxPrice}
+                    onChange={(e) => updateBuyerRequest(index, 'maxPrice', parseFloat(e.target.value))}
+                    className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800" />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">גודל מינימלי (מ"ר)</label>
+                  <input
+                    type="number"
+                    value={req.minSize}
+                    onChange={(e) => updateBuyerRequest(index, 'minSize', parseFloat(e.target.value))}
+                    className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800" />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">קומה מינימלית</label>
+                  <input
+                    type="number"
+                    value={req.minFloor}
+                    onChange={(e) => updateBuyerRequest(index, 'minFloor', parseInt(e.target.value))}
+                    className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800" />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">קומה מקסימלית</label>
+                  <input
+                    type="number"
+                    value={req.maxFloor}
+                    onChange={(e) => updateBuyerRequest(index, 'maxFloor', parseInt(e.target.value))}
+                    className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800" />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">נזילות</label>
+                  <select
+                    value={req.liquidity}
+                    onChange={(e) => updateBuyerRequest(index, 'liquidity', e.target.value)}
+                    className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800">
+                    <option value="Immediate">מיידית</option>
+                    <option value="High">גבוהה</option>
+                    <option value="Medium">בינונית</option>
+                    <option value="Low">נמוכה</option>
+                  </select>
+                </div>
+
+                {req.type === 'tabo' && (
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">הון עצמי מקסימלי</label>
+                      <input
+                        type="number"
+                        value={req.maxEquity}
+                        onChange={(e) => updateBuyerRequest(index, 'maxEquity', parseFloat(e.target.value))}
+                        className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">קהילה</label>
+                      <select
+                        value={req.community}
+                        onChange={(e) => updateBuyerRequest(index, 'community', e.target.value)}
+                        className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800">
+                        <option value="Yerushalmi">ירושלמי</option>
+                        <option value="Chasidi">חסידי</option>
+                        <option value="Sefaradi">ספרדי</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">סוג רישום</label>
+                      <select
+                        value={req.registrationType}
+                        onChange={(e) => updateBuyerRequest(index, 'registrationType', e.target.value)}
+                        className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800">
+                        <option value="Tabo">טאבו</option>
+                        <option value="Name">שם</option>
+                        <option value="None">לא משנה</option>
+                      </select>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">פרטים נוספים</label>
+                <textarea
+                  value={req.details}
+                  onChange={(e) => updateBuyerRequest(index, 'details', e.target.value)}
+                  rows="2"
+                  className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800 resize-none"
+                  placeholder="פרטים נוספים לבקשה..." />
+              </div>
             </div>
-          }
+          ))}
+
+          {buyerRequests.length === 0 && (
+            <p className="text-center text-gray-500 py-4 italic">אין בקשות קונה. לחץ על הכפתורים למעלה כדי להוסיף.</p>
+          )}
         </div>
-      </div>
-
-      {/* Status */}
-      <div>
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">סטטוס</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">סטטוס לקוח</label>
-            <select
-              value={formData.status}
-              onChange={(e) => handleChange('status', e.target.value)}
-              className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800">
-              <option value="חדש">חדש</option>
-              <option value="בתהליך">בתהליך</option>
-              <option value="הקפאה">הקפאה</option>
-              <option value="נסגר">נסגר</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">סוכן אחראי</label>
-            <input
-              type="text"
-              value={formData.owner_agent}
-              onChange={(e) => handleChange('owner_agent', e.target.value)}
-              className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800"
-              placeholder="שם הסוכן" />
-          </div>
-        </div>
-      </div>
-
-      {/* Notes */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">הערות</label>
-        <textarea
-          value={formData.notes}
-          onChange={(e) => handleChange('notes', e.target.value)}
-          rows="4"
-          className="w-full neomorphic-inset rounded-xl px-4 py-3 bg-transparent text-gray-800 resize-none"
-          placeholder="הערות נוספות על הקונה..." />
       </div>
 
       {/* Actions */}

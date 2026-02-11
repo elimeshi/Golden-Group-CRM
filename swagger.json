@@ -1,0 +1,1125 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Golden Group API",
+        "description": "API for Golden Group",
+        "version": "v1"
+    },
+    "paths": {
+        "/api/BuyerRequests": {
+            "get": {
+                "tags": [
+                    "BuyerRequests"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BuyerRequestDto"
+                                    }
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BuyerRequestDto"
+                                    }
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BuyerRequestDto"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/BuyerRequests/normal": {
+            "post": {
+                "tags": [
+                    "BuyerRequests"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateNormalBuyerRequestDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateNormalBuyerRequestDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateNormalBuyerRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BuyerRequestDto"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BuyerRequestDto"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BuyerRequestDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/BuyerRequests/tabo": {
+            "post": {
+                "tags": [
+                    "BuyerRequests"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTaboBuyerRequestDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTaboBuyerRequestDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTaboBuyerRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BuyerRequestDto"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BuyerRequestDto"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BuyerRequestDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/BuyerRequests/{id}": {
+            "put": {
+                "tags": [
+                    "BuyerRequests"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBuyerRequestDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBuyerRequestDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBuyerRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "BuyerRequests"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/Clients": {
+            "get": {
+                "tags": [
+                    "Clients"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ClientDto"
+                                    }
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ClientDto"
+                                    }
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ClientDto"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Clients"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateClientDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateClientDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateClientDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ClientDto"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ClientDto"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ClientDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Clients/{id}": {
+            "get": {
+                "tags": [
+                    "Clients"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ClientDto"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ClientDto"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ClientDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Listings": {
+            "get": {
+                "tags": [
+                    "Listings"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ListingDto"
+                                    }
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ListingDto"
+                                    }
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ListingDto"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Listings/normal": {
+            "post": {
+                "tags": [
+                    "Listings"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateNormalListingDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateNormalListingDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateNormalListingDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListingDto"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListingDto"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListingDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Listings/tabo": {
+            "post": {
+                "tags": [
+                    "Listings"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTaboListingDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTaboListingDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTaboListingDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListingDto"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListingDto"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListingDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Listings/{id}": {
+            "put": {
+                "tags": [
+                    "Listings"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateListingDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateListingDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateListingDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Listings"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "BuyerRequestDto": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "zones": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "minFloor": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "maxFloor": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "maxPrice": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "minSize": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "details": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "liquidity": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "clientId": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "ClientDto": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "firstName": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "lastName": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "idNumber": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "phoneNumbers": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "email": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "address": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "Community": {
+                "enum": [
+                    "Yerushalmi",
+                    "Chasidi",
+                    "Sefaradi"
+                ],
+                "type": "string"
+            },
+            "CreateClientDto": {
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "lastName": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "idNumber": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "phoneNumbers": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "email": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "address": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "CreateNormalBuyerRequestDto": {
+                "type": "object",
+                "properties": {
+                    "zones": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Zone"
+                        },
+                        "nullable": true
+                    },
+                    "minFloor": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "maxFloor": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "maxPrice": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "minSize": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "details": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "liquidity": {
+                        "$ref": "#/components/schemas/Liquidity"
+                    },
+                    "clientId": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "CreateNormalListingDto": {
+                "type": "object",
+                "properties": {
+                    "city": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "street": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "buildingNumber": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "aptNumber": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "floor": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "rooms": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "squaredMeters": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "zone": {
+                        "$ref": "#/components/schemas/Zone"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "clientId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "enteringDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "propertyState": {
+                        "$ref": "#/components/schemas/PropertyState"
+                    },
+                    "details": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "housingUnits": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/HousingUnitDto"
+                        },
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "CreateTaboBuyerRequestDto": {
+                "type": "object",
+                "properties": {
+                    "zones": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Zone"
+                        },
+                        "nullable": true
+                    },
+                    "minFloor": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "maxFloor": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "maxPrice": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "minSize": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "details": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "liquidity": {
+                        "$ref": "#/components/schemas/Liquidity"
+                    },
+                    "clientId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "maxEquity": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "community": {
+                        "$ref": "#/components/schemas/Community"
+                    },
+                    "registrationType": {
+                        "$ref": "#/components/schemas/RegistrationType"
+                    },
+                    "maxPartners": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "CreateTaboListingDto": {
+                "type": "object",
+                "properties": {
+                    "city": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "street": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "buildingNumber": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "aptNumber": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "floor": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "rooms": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "squaredMeters": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "zone": {
+                        "$ref": "#/components/schemas/Zone"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "clientId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "enteringDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "propertyState": {
+                        "$ref": "#/components/schemas/PropertyState"
+                    },
+                    "details": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "housingUnits": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/HousingUnitDto"
+                        },
+                        "nullable": true
+                    },
+                    "registrationType": {
+                        "$ref": "#/components/schemas/RegistrationType"
+                    },
+                    "numOfPartners": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "requiredEquity": {
+                        "type": "number",
+                        "format": "double"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "HousingUnitDto": {
+                "type": "object",
+                "properties": {
+                    "squaredMeters": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "rooms": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "floor": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "phoneNumber": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "Liquidity": {
+                "enum": [
+                    "Immediate",
+                    "High",
+                    "Medium",
+                    "Low"
+                ],
+                "type": "string"
+            },
+            "ListingDto": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "city": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "street": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "buildingNumber": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "aptNumber": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "floor": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "rooms": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "squaredMeters": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "zone": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "clientId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "enteringDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "applicationDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastUpdateDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "propertyState": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "details": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "housingUnits": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/HousingUnitDto"
+                        },
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "PropertyState": {
+                "enum": [
+                    "NewFromContractor",
+                    "New",
+                    "Renovated",
+                    "GoodCondition",
+                    "NeedsRenovation"
+                ],
+                "type": "string"
+            },
+            "RegistrationType": {
+                "enum": [
+                    "Tabo",
+                    "Company",
+                    "Other"
+                ],
+                "type": "string"
+            },
+            "UpdateBuyerRequestDto": {
+                "type": "object",
+                "properties": {
+                    "zones": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Zone"
+                        },
+                        "nullable": true
+                    },
+                    "minFloor": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "maxFloor": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "maxPrice": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "minSize": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "details": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "liquidity": {
+                        "$ref": "#/components/schemas/Liquidity"
+                    },
+                    "clientId": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "UpdateListingDto": {
+                "type": "object",
+                "properties": {
+                    "city": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "street": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "buildingNumber": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "aptNumber": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "floor": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "rooms": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "squaredMeters": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "zone": {
+                        "$ref": "#/components/schemas/Zone"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "clientId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "enteringDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "propertyState": {
+                        "$ref": "#/components/schemas/PropertyState"
+                    },
+                    "details": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "housingUnits": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/HousingUnitDto"
+                        },
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "Zone": {
+                "enum": [
+                    "A1",
+                    "A2",
+                    "B1",
+                    "B2",
+                    "C"
+                ],
+                "type": "string"
+            }
+        }
+    }
+}
