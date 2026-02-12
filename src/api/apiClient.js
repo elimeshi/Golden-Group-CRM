@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: "https://spring-api-718383134893.me-west1.run.app/api/",
+  baseURL: "https://spring-api-718383134893.me-west1.run.app/api",
   headers: { "Content-Type": "application/json", },
 });
 
