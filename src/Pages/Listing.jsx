@@ -19,10 +19,12 @@ export default function Listings() {
 
   const queryClient = useQueryClient();
 
+  console.log('Starting to fetch listings.');
   const { data: listings = [], isLoading } = useQuery({
     queryKey: ['listings'],
     queryFn: () => entities.Listing.list(),
   });
+  console.log('Finished to fetch listings.');
 
   const createNormalMutation = useMutation({
     mutationFn: (data) => entities.Listing.createNormal(data),

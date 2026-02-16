@@ -8,25 +8,30 @@ const api = axios.create({
 class EntityApi {
   constructor(entityName) { this.entityName = entityName; }
 
-  list(orderBy) {
-    return api.get(`${this.entityName}`, { params: orderBy ? { orderBy } : undefined }).then(res => res.data);
+  async list(orderBy) {
+    const res = await api.get(`${this.entityName}`, { params: orderBy ? { orderBy } : undefined });
+    return res.data;
   }
 
-  get(id) {
-    return api.get(`${this.entityName}/${id}`).then(res => res.data);
+  async get(id) {
+    const res = await api.get(`${this.entityName}/${id}`);
+    return res.data;
   }
 
 
-  create(data) {
-    return api.post(`${this.entityName}`, data).then(res => res.data);
+  async create(data) {
+    const res = await api.post(`${this.entityName}`, data);
+    return res.data;
   }
 
-  update(id, data) {
-    return api.put(`${this.entityName}/${id}`, data).then(res => res.data);
+  async update(id, data) {
+    const res = await api.put(`${this.entityName}/${id}`, data);
+    return res.data;
   }
 
-  delete(id) {
-    return api.delete(`${this.entityName}/${id}`).then(res => res.data);
+  async delete(id) {
+    const res = await api.delete(`${this.entityName}/${id}`);
+    return res.data;
   }
 }
 
@@ -56,16 +61,17 @@ export const entities = {
   Deal: new EntityApi("deals"),
   Commission: new EntityApi("commissions"),
   Campaign: new EntityApi("campaigns"),
-  Listing: {
-    ...new EntityApi("Listings"),
-    createNormal: (data) => api.post("Listings/normal", data).then(res => res.data),
-    createTabo: (data) => api.post("Listings/tabo", data).then(res => res.data),
-  },
-  BuyerRequest: {
-    ...new EntityApi("BuyerRequests"),
-    createNormal: (data) => api.post("BuyerRequests/normal", data).then(res => res.data),
-    createTabo: (data) => api.post("BuyerRequests/tabo", data).then(res => res.data),
-  }
+  Showing: new EntityApi("showings"),
+  Offer: new EntityApi("offers"),
+  Task: new EntityApi("tasks"),
+  Listing: Object.assign(new EntityApi("listings"), {
+    createNormal: (data) => api.post("listings/normal", data).then(res => res.data),
+    createTabo: (data) => api.post("listings/tabo", data).then(res => res.data),
+  }),
+  BuyerRequest: Object.assign(new EntityApi("buyerRequests"), {
+    createNormal: (data) => api.post("buyerRequests/normal", data).then(res => res.data),
+    createTabo: (data) => api.post("buyerRequests/tabo", data).then(res => res.data),
+  })
 }
 
 export const integrations = {
